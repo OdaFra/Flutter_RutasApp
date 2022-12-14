@@ -2,9 +2,6 @@
 
 A new Flutter project.
 
-### Dependencies
-  bloc \n
-  flutter_bloc
 
 ## Getting Started
 
