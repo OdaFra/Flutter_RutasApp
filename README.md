@@ -3,8 +3,9 @@
 A new Flutter project.
 
 ### Dependencies
-  bloc: ^8.1.0
-  flutter_bloc: ^8.1.1
+  bloc \n
+  flutter_bloc
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
