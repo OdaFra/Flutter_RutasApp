@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'MapsApp',
       home: Scaffold(
         body: Center(
-          child: Text('Hello World'),
+          child: Text('Maps App'),
         ),
       ),
     );
