@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rutasapp/blocs/blocs.dart';
 
 class GpsScreen extends StatelessWidget {
   const GpsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: Center(
-      child: _AccessBotton(),
-    ));
+    return Scaffold(body: Center(child: BlocBuilder<GpsBloc, GpsState>(
+      builder: (context, state) {
+        return !state.isGpsEnabled
+            ? const _EnableGpsMessage()
+            : const _AccessBotton();
+      },
+    )));
   }
 }
 
@@ -23,6 +28,7 @@ class _AccessBotton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text('Es necesario el acceso a GPS'),
+        const SizedBox(height: 15),
         MaterialButton(
           onPressed: () {},
           color: Colors.blue.shade800,
