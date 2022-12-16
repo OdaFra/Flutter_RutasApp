@@ -7,18 +7,17 @@ class GpsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: BlocBuilder<GpsBloc, GpsState>(
-      builder: (context, state) {
-        return !state.isGpsEnabled
-            ? const _EnableGpsMessage()
-            : const _AccessBotton();
-      },
-    )));
+    return Scaffold(body:
+        Center(child: BlocBuilder<GpsBloc, GpsState>(builder: (context, state) {
+      return !state.isGpsEnabled
+          ? const _EnableGpsMessage()
+          : const _AccessButton();
+    })));
   }
 }
 
-class _AccessBotton extends StatelessWidget {
-  const _AccessBotton({
+class _AccessButton extends StatelessWidget {
+  const _AccessButton({
     Key? key,
   }) : super(key: key);
 
