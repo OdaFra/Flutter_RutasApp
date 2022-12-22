@@ -10,7 +10,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  late LocationBloc locationBloc;
+  late LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
   @override
   void initState() {
     super.initState();

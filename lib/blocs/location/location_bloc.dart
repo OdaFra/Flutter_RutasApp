@@ -30,37 +30,39 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     });
   }
 
-  Future getCurrentPosition() async {
-    if (_gpsBloc.state.isAllGranted != true) {
-      return;
-    } else {
-      try {
-        final position = await Geolocator.getCurrentPosition();
-        add(OnNewUserLocationEvent(
-            LatLng(position.latitude, position.longitude)));
-      } catch (e) {
-        print('El error es: $e');
-      }
-    }
+  Future<void> getCurrentPosition() async {
+    // if (_gpsBloc.state.isAllGranted) {
+    //   try {
+    final position = await Geolocator.getCurrentPosition();
+    print(position);
+    add(OnNewUserLocationEvent(LatLng(position.latitude, position.longitude)));
+    //   } catch (e) {
+    //     print('El error es: $e');
+    //   }
+    // } else {
+    //   return;
+    // }
 
     //return position;
   }
 
   void startFollowingUser() {
-    if (_gpsBloc.state.isAllGranted != true) {
-      return;
-    } else {
-      try {
-        add(OnStarFollowingUser());
-        positionStream = Geolocator.getPositionStream().listen((event) {
-          final position = event;
-          add(OnNewUserLocationEvent(
-              LatLng(position.latitude, position.longitude)));
-        });
-      } catch (e) {
-        print('El error es: $e');
-      }
-    }
+    // if (_gpsBloc.state.isAllGranted) {
+    //   try {
+
+    positionStream = Geolocator.getPositionStream().listen((event) {
+      final position = event;
+      print(position);
+      add(OnNewUserLocationEvent(
+          LatLng(position.latitude, position.longitude)));
+    });
+    add(OnStarFollowingUser());
+    //   } catch (e) {
+    //     print('El error es: $e');
+    //   }
+    // } else {
+    //   return;
+    // }
   }
 
   void stopFollowingUser() {
