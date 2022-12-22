@@ -22,8 +22,8 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void dispose() {
     //  final locationBloc = BlocProvider.of<LocationBloc>(context);
-    locationBloc.stopFollowingUser();
     super.dispose();
+    locationBloc.stopFollowingUser();
   }
 
   @override
@@ -31,8 +31,15 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(body: BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
         if (state.lastKwonLocation == null) {
-          return const Center(
-            child: Text('Espere por favor...'),
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Espere por favor...'),
+                SizedBox(height: 15),
+                CircularProgressIndicator.adaptive(),
+              ],
+            ),
           );
         }
         return Center(
