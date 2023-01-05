@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rutasapp/blocs/location/location_bloc.dart';
+import 'package:rutasapp/views/views.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -42,16 +43,29 @@ class _MapScreenState extends State<MapScreen> {
             ),
           );
         }
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+
+        return SingleChildScrollView(
+          child: Stack(
             children: [
-              const Text('La posición actual es '),
-              Text(
-                  'Latitude : ${state.lastKwonLocation?.latitude}, Longitud : ${state.lastKwonLocation?.longitude}'),
+              MapView(
+                initialLocation: state.lastKwonLocation!,
+              ),
+              //TODO: Crear mas botonres
             ],
           ),
         );
+
+        // return GoogleMap(initialCameraPosition: initialCameraPosition);
+        // Center(
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       const Text('La posición actual es '),
+        //       Text(
+        //           'Latitude : ${state.lastKwonLocation?.latitude}, Longitud : ${state.lastKwonLocation?.longitude}'),
+        //     ],
+        //   ),
+        // );
       },
     ));
   }
