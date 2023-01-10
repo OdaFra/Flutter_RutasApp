@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rutasapp/blocs/blocs.dart';
+import 'package:rutasapp/ui/custom_snackBar.dart';
 
 class BtnCurrentLocation extends StatelessWidget {
   const BtnCurrentLocation({super.key});
@@ -18,9 +19,12 @@ class BtnCurrentLocation extends StatelessWidget {
         child: IconButton(
             onPressed: () {
               final userLocation = locationBloc.state.lastKwonLocation;
-              if (userLocation == null) return;
-              //TODO:SnackBar.
 
+              if (userLocation == null) {
+                final snack = CustomSnackBar(message: 'Por favor espere..');
+                ScaffoldMessenger.of(context).showSnackBar(snack);
+                return;
+              }
               mapBloc.moveCamera(userLocation);
             },
             icon: const Icon(
