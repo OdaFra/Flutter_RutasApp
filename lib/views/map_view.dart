@@ -23,7 +23,7 @@ class MapView extends StatelessWidget {
       width: size.width,
       height: size.height,
       child: Listener(
-        onPointerUp: (pointerMoveEvent) =>
+        onPointerMove: (pointerMoveEvent) =>
             mapBloc.add(OnStopFollowingUserEvent()),
         child: GoogleMap(
           initialCameraPosition: initialCameraPosition,
