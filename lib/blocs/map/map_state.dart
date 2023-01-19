@@ -2,20 +2,20 @@ part of 'map_bloc.dart';
 
 class MapState extends Equatable {
   final bool isMapInitialized;
-  final bool isfollowUser;
+  final bool isFollowingUser;
 
   const MapState({
     this.isMapInitialized = false,
-    this.isfollowUser = false,
+    this.isFollowingUser = true,
   });
 
   MapState copyWith({
     bool? isMapInitialized,
-    bool? isfollowUser,
+    bool? isFollowingUser,
   }) =>
       MapState(
         isMapInitialized: isMapInitialized ?? this.isMapInitialized,
-        isfollowUser: isfollowUser ?? this.isfollowUser,
+        isFollowingUser: isFollowingUser ?? this.isFollowingUser,
       );
 
   @override
@@ -23,5 +23,5 @@ class MapState extends Equatable {
 
   @override
   String toString() =>
-      'MapState(isMapInitialized: $isMapInitialized, isfollowUser: $isfollowUser)';
+      'MapState(isMapInitialized: $isMapInitialized, isfollowUser: $isFollowingUser)';
 }
