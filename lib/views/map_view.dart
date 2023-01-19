@@ -22,19 +22,23 @@ class MapView extends StatelessWidget {
     return SizedBox(
       width: size.width,
       height: size.height,
-      child: GoogleMap(
-        initialCameraPosition: initialCameraPosition,
-        compassEnabled: true,
-        myLocationEnabled: true,
-        zoomControlsEnabled: false,
-        myLocationButtonEnabled: false,
+      child: Listener(
+        onPointerUp: (pointerMoveEvent) =>
+            mapBloc.add(OnStopFollowingUserEvent()),
+        child: GoogleMap(
+          initialCameraPosition: initialCameraPosition,
+          compassEnabled: true,
+          myLocationEnabled: true,
+          zoomControlsEnabled: false,
+          myLocationButtonEnabled: false,
 
-        onMapCreated: (controller) => mapBloc.add(
-          OnMapInitializedEvent(controller),
+          onMapCreated: (controller) => mapBloc.add(
+            OnMapInitializedEvent(controller),
+          ),
+          //TODO: Markers
+          //TODO: polylines
+          //TODO: Cuando se mueve el mapa
         ),
-        //TODO: Markers
-        //TODO: polylines
-        //TODO: Cuando se mueve el mapa
       ),
     );
   }
