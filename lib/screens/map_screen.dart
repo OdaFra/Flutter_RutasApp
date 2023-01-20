@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rutasapp/blocs/location/location_bloc.dart';
+import 'package:rutasapp/blocs/map/map_bloc.dart';
 import 'package:rutasapp/views/views.dart';
 import 'package:rutasapp/widgets/widgets.dart';
 
@@ -32,44 +33,35 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
-        builder: (context, state) {
-          if (state.lastKwonLocation == null) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('Espere por favor...'),
-                  SizedBox(height: 15),
-                  CircularProgressIndicator.adaptive(),
-                ],
-              ),
-            );
-          }
-
-          return SingleChildScrollView(
-            child: Stack(
-              children: [
-                MapView(
-                  initialLocation: state.lastKwonLocation!,
-                ),
-                //TODO: Crear mas botonres
+          builder: (context, locationState) {
+        if (locationState.lastKwonLocation == null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Espere por favor...'),
+                SizedBox(height: 15),
+                CircularProgressIndicator.adaptive(),
               ],
             ),
           );
+        }
 
-          // return GoogleMap(initialCameraPosition: initialCameraPosition);
-          // Center(
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       const Text('La posición actual es '),
-          //       Text(
-          //           'Latitude : ${state.lastKwonLocation?.latitude}, Longitud : ${state.lastKwonLocation?.longitude}'),
-          //     ],
-          //   ),
-          // );
-        },
-      ),
+        return BlocBuilder<MapBloc, MapState>(
+          builder: (context, mapState) {
+            return SingleChildScrollView(
+              child: Stack(
+                children: [
+                  MapView(
+                    initialLocation: locationState.lastKwonLocation!,
+                    polyline: mapState.polylines.values.toSet(),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -81,3 +73,16 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 }
+
+
+// return GoogleMap(initialCameraPosition: initialCameraPosition);
+          // Center(
+          //   child: Column(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       const Text('La posición actual es '),
+          //       Text(
+          //           'Latitude : ${state.lastKwonLocation?.latitude}, Longitud : ${state.lastKwonLocation?.longitude}'),
+          //     ],
+          //   ),
+          // );

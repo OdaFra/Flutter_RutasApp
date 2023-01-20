@@ -22,6 +22,13 @@ class LocationState extends Equatable {
       );
 
   @override
-  List<Object?> get props =>
-      [followingUser, lastKwonLocation, myLocationHistory];
+  List<Object?> get props => [
+        followingUser,
+        lastKwonLocation,
+        myLocationHistory,
+      ];
+
+  @override
+  String toString() =>
+      'LocationState(followingUser: $followingUser, lastKwonLocation: $lastKwonLocation, myLocationHistory: $myLocationHistory)';
 }

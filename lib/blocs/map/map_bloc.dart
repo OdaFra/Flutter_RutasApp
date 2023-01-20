@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rutasapp/blocs/location/location_bloc.dart';
 import 'package:rutasapp/themes/themes.dart';
@@ -18,8 +19,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnMapInitializedEvent>(_onInitMap);
     on<OnStartFollowingUserEvent>(_onStartFollowingUser);
     on<OnStopFollowingUserEvent>(_onStopFollowingUser);
+    on<UpdateUserPolylineEvent>(_onPolylineNewPoint);
 
     locationBloc.stream.listen((locationState) {
+      if (locationState.lastKwonLocation != null) {
+        add(UpdateUserPolylineEvent(locationState.myLocationHistory));
+      }
+
       if (!state.isFollowingUser) return;
 
       if (locationState.lastKwonLocation == null) return;
@@ -53,5 +59,23 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   void _onStopFollowingUser(
       OnStopFollowingUserEvent event, Emitter<MapState> emit) {
     emit(state.copyWith(isFollowingUser: false));
+  }
+
+  void _onPolylineNewPoint(
+      UpdateUserPolylineEvent event, Emitter<MapState> emit) {
+    final myRoute = Polyline(
+      polylineId: const PolylineId('myRouter'),
+      color: Colors.black,
+      width: 5,
+      startCap: Cap.roundCap,
+      endCap: Cap.roundCap,
+      points: event.userLocations,
+    );
+
+    final Map<String, Polyline> currentsPolylines = Map.from(state.polylines);
+
+    currentsPolylines['myRoute'] = myRoute;
+
+    emit(state.copyWith(polylines: currentsPolylines));
   }
 }

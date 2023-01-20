@@ -4,9 +4,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rutasapp/blocs/blocs.dart';
 
 class MapView extends StatelessWidget {
-  const MapView({super.key, required this.initialLocation});
+  const MapView({
+    super.key,
+    required this.initialLocation,
+    required this.polyline,
+  });
 
   final LatLng initialLocation;
+  final Set<Polyline> polyline;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,7 @@ class MapView extends StatelessWidget {
           myLocationEnabled: true,
           zoomControlsEnabled: false,
           myLocationButtonEnabled: false,
-
+          polylines: polyline,
           onMapCreated: (controller) => mapBloc.add(
             OnMapInitializedEvent(controller),
           ),
