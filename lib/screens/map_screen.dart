@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rutasapp/blocs/location/location_bloc.dart';
 import 'package:rutasapp/blocs/map/map_bloc.dart';
 import 'package:rutasapp/views/views.dart';
+import 'package:rutasapp/widgets/btn_toggle_user_route.dart';
 import 'package:rutasapp/widgets/widgets.dart';
 
 class MapScreen extends StatefulWidget {
@@ -49,12 +51,18 @@ class _MapScreenState extends State<MapScreen> {
 
         return BlocBuilder<MapBloc, MapState>(
           builder: (context, mapState) {
+            Map<String, Polyline> polylines = Map.from(mapState.polylines);
+
+            if (!mapState.showMyRoutes) {
+              polylines.removeWhere((key, value) => key == 'myRoute');
+            }
+
             return SingleChildScrollView(
               child: Stack(
                 children: [
                   MapView(
                     initialLocation: locationState.lastKwonLocation!,
-                    polyline: mapState.polylines.values.toSet(),
+                    polylines: polylines.values.toSet(),
                   ),
                 ],
               ),
@@ -66,6 +74,7 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
+          BtnToggleUserRoute(),
           BtnFollowUser(),
           BtnCurrentLocation(),
         ],

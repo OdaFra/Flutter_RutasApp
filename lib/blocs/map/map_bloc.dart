@@ -13,6 +13,9 @@ part 'map_state.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   final LocationBloc locationBloc;
   GoogleMapController? _mapController;
+
+  StreamSubscription<LocationState>? locationStateSubscription;
+
   MapBloc({
     required this.locationBloc,
   }) : super(const MapState()) {
@@ -20,8 +23,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnStartFollowingUserEvent>(_onStartFollowingUser);
     on<OnStopFollowingUserEvent>(_onStopFollowingUser);
     on<UpdateUserPolylineEvent>(_onPolylineNewPoint);
+    on<OnToggleUserRoute>(_onToggleUserRoute);
 
-    locationBloc.stream.listen((locationState) {
+    locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastKwonLocation != null) {
         add(UpdateUserPolylineEvent(locationState.myLocationHistory));
       }
@@ -77,5 +81,16 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     currentsPolylines['myRoute'] = myRoute;
 
     emit(state.copyWith(polylines: currentsPolylines));
+  }
+
+  FutureOr<void> _onToggleUserRoute(
+      OnToggleUserRoute event, Emitter<MapState> emit) {
+    emit(state.copyWith(showMyRoutes: !state.showMyRoutes));
+  }
+
+  @override
+  Future<void> close() {
+    locationStateSubscription?.cancel();
+    return super.close();
   }
 }
